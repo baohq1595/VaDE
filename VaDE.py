@@ -167,7 +167,7 @@ def load_pretrain_weights(vade,dataset):
         g = mixture.GaussianMixture(n_components=n_centroid,covariance_type='diag')
         g.fit(sample)
         u_p.set_value(floatX(g.means_.T))
-        lambda_p.set_value((floatX(g.covars_.T)))
+        lambda_p.set_value((floatX(g.covariances_.T)))
     if dataset == 'reuters10k':
         k = KMeans(n_clusters=n_centroid)
         k.fit(sample)
@@ -176,7 +176,7 @@ def load_pretrain_weights(vade,dataset):
         g = mixture.GaussianMixture(n_components=n_centroid,covariance_type='diag',random_state=3)
         g.fit(sample)
         u_p.set_value(floatX(g.means_.T))
-        lambda_p.set_value((floatX(g.covars_.T)))
+        lambda_p.set_value((floatX(g.covariances_.T)))
     print ('pretrain weights loaded!')
     return vade
 #===================================
