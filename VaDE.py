@@ -11,6 +11,10 @@ Reuters_all: 79.38% +
 @code author: Zhuxi Jiang
 '''
 import numpy as np
+
+import os
+os.environ['KERAS_BACKEND'] = 'theano'
+
 from keras.callbacks import Callback
 from keras.optimizers import Adam
 from keras.layers import Input, Dense, Lambda
@@ -160,7 +164,7 @@ def load_pretrain_weights(vade,dataset):
     vade.layers[-4].set_weights(ae.layers[-4].get_weights())
     sample = sample_output.predict(X,batch_size=batch_size)
     if dataset == 'mnist':
-        g = mixture.GMM(n_components=n_centroid,covariance_type='diag')
+        g = mixture.GaussianMixture(n_components=n_centroid,covariance_type='diag')
         g.fit(sample)
         u_p.set_value(floatX(g.means_.T))
         lambda_p.set_value((floatX(g.covars_.T)))
@@ -169,7 +173,7 @@ def load_pretrain_weights(vade,dataset):
         k.fit(sample)
         u_p.set_value(floatX(k.cluster_centers_.T))
     if dataset == 'har':
-        g = mixture.GMM(n_components=n_centroid,covariance_type='diag',random_state=3)
+        g = mixture.GaussianMixture(n_components=n_centroid,covariance_type='diag',random_state=3)
         g.fit(sample)
         u_p.set_value(floatX(g.means_.T))
         lambda_p.set_value((floatX(g.covars_.T)))
