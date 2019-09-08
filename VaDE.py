@@ -259,7 +259,8 @@ if ispretrain == True:
     vade = load_pretrain_weights(vade,dataset)
 adam_nn= Adam(lr=lr_nn,epsilon=1e-4)
 adam_gmm= Adam(lr=lr_gmm,epsilon=1e-4)
-vade.compile(optimizer=adam_nn, loss=vae_loss,add_trainable_weights=[theta_p,u_p,lambda_p],add_optimizer=adam_gmm)
+vade._trainable_weights = [theta_p,u_p,lambda_p]
+vade.compile(optimizer=adam_nn, loss=vae_loss,add_optimizer=adam_gmm)
 epoch_begin=EpochBegin()
 #-------------------------------------------------------
 
